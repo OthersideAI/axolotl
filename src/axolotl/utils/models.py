@@ -789,7 +789,10 @@ def load_llama_adapter(model, cfg):
     else:
         model = get_peft_model(model, peft_config)
 
-    model.print_trainable_parameters()
+    try:
+        model.print_trainable_parameters()
+    except:
+        pass
 
     return model, peft_config
 
@@ -899,7 +902,10 @@ def load_lora(model, cfg, inference=False, config_only=False):
         model = get_peft_model(model, lora_config)
 
     if rank == 0:
-        model.print_trainable_parameters()
+        try:
+            model.print_trainable_parameters()
+        except:
+            pass
     elif cfg.fsdp and cfg.adapter == "qlora":
         setup_quantized_peft_meta_for_training(model)
 
